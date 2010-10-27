@@ -12,8 +12,7 @@
 // page is the result of running Phocco against its [own source file](http://github.com/rileydutton/phocco/blob/master/phocco.php).
 //
 // In addition to Docco's basic features, Phocco has basic support for PHPDocumentor-style docblocks. It can also be used on almost
-// any webserver (including shared hosting) with PHP 5, since it can fall back to a web service if your server doesn't have Pygments
-// installed.
+// any server with PHP 5, since it can fall back to a web service if your server doesn't have Pygments installed.
 //
 // To run from the command-line (must have PHP CLI installed):
 //
@@ -22,7 +21,8 @@
 // ...will generate linked HTML documentation for the named source files, saving
 // it into a `docs` folder.
 //
-//
+// There may be support added in the future for dynamic on-the-fly documentation generation (for example, uploading Phocco to a webserver).
+// Contact me and let me know if that is something you would use.
 
 ### Requirements
 //
@@ -211,7 +211,7 @@ function parse($source, $code) {
 }
 
 /**
- * Highlight each section, using Pygment for the code, and Markdown for the documentation.
+ * Highlight each section, using Pygments for the code, and Markdown for the documentation.
  * 
  * @param string $filename
  * @param array $sections
@@ -329,7 +329,7 @@ function generate_html($filename, $sections) {
 ### Configuration & Setup
 
 /**
- * A list of the languages that Phocco supports, which is a subset of the languages Pygment supports.
+ * A list of the languages that Phocco supports, which is a subset of the languages Pygments supports.
  *
  * Add more languages here!
  */
