@@ -1,21 +1,8 @@
 <?php
 //We need the PHP-Markdown library to process the syntax for the documentation portions.
 require("external/php-markdown/markdown.php");
-
-//A simple function for parsing args from the command line.
-//Taken from: [http://pwfisher.com/nucleus/index.php?itemid=45](http://pwfisher.com/nucleus/index.php?itemid=45)
-function parseArgs($argv){
-    array_shift($argv); $o = array();
-    foreach ($argv as $a){
-        if (substr($a,0,2) == '--'){ $eq = strpos($a,'=');
-            if ($eq !== false){ $o[substr($a,2,$eq-2)] = substr($a,$eq+1); }
-            else { $k = substr($a,2); if (!isset($o[$k])){ $o[$k] = true; } } }
-        else if (substr($a,0,1) == '-'){
-            if (substr($a,2,1) == '='){ $o[substr($a,1,1)] = substr($a,3); }
-            else { foreach (str_split(substr($a,1)) as $k){ if (!isset($o[$k])){ $o[$k] = true; } } } }
-        else { $o[] = $a; } }
-    return $o;
-}
+//Some simple command-line parsing
+require("external/class.args.php");
 
 /**
  * Generate the documentation. The "main loop", so to speak.
@@ -34,6 +21,16 @@ function generate_documentation($file) {
 /**
  * Take each source file, and turn it into a series of sections of corresponding code blocks and documentation blocks
  * 
+ * Given a string of source code, parse out each comment and the code that follows it, and create an individual section for it.
+ * Sections take the form:
+ *		
+ *		{ 
+ *			"docs_text": ...,
+ *			"docs_html": ...,
+ *			"code_text": ...,
+ *			"code_html": ...,
+ *			"num":       ...
+ *		} 
  * @param string $source (the filename)
  * @param string $code (the actual contents of the file)
  * @return array $sections
@@ -266,7 +263,7 @@ function highlight($filename, $sections) {
 }
 
 /**
- * Generate our final HTML file based on the processing we've done.
+ * Generate our final HTML file based on the processing we've done. Write out the HTML file.
  * 
  * @param string $filename
  * @param array $sections
@@ -275,6 +272,7 @@ function highlight($filename, $sections) {
 function generate_html($filename, $sections) {
 
 	global $sources;
+	global $options;
 
 	if(!is_dir("docs"))
 		mkdir("docs");
@@ -288,14 +286,14 @@ function generate_html($filename, $sections) {
 	include("template.php");
 	$compiled = ob_get_clean();
 	
-	$file = fopen("docs/" . $basename . ".html", "w") or die("Coudn't open output file!");
+	$file = fopen($options["outputdir"] . "/" . $basename . ".html", "w") or die("Coudn't open output file!");
 	fwrite($file, $compiled);
 	fclose($file);
 
 }
 
 /**
- * A list of the languages that Pocco supports, which is a subset of the languages Pygment supports.
+ * A list of the languages that Phocco supports, which is a subset of the languages Pygment supports.
  *
  * Add more languages here!
  */
@@ -349,23 +347,34 @@ function get_language($filename) {
         
 }
 
-
-$args = parseArgs($_SERVER['argv']);
-
-if(!isset($args[0])) {
-	print("You must supply a filename to continue.\n");
-}
-
+global $options;
 global $sources;
 
 $sources = array();
+$args = new Args();
 
-foreach($args as $filename) {
+//Default options
+$options = array(
+	"outputdir" => "docs",
+);
+
+print($args->flag("o")."\n");
+
+if($outputdir = $args->flag("o"))
+	$options["outputdir"] = $outputdir;
+	
+print_r($args->args);
+
+if(count($args->args) == 0) {
+	print("You must supply a filename to continue.\n");
+}
+
+foreach($args->args as $filename) {
 	$e = explode(".", $filename);
 	$basename = $e[0];
 	$sources[] = $basename;
 }
 
-foreach($args as $filename) {
+foreach($args->args as $filename) {
 	generate_documentation($filename);
 }
