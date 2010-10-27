@@ -1,9 +1,43 @@
 <?php
+
+// **Phocco** is a PHP port of [Docco](http://jashkenas.github.com/docco/ ):
+// the original quick-and-dirty, hundred-line-long, literate-programming-style
+// documentation generator, with inspiration from 
+// [Pycco](http://fitzgen.github.com/pycco/) (for Python) 
+// and [Rocco](http://rtomayko.github.com/rocco/) (for Ruby).
+// It produces HTML that displays your comments
+// alongside your code. Comments are passed through
+// [Markdown](http://daringfireball.net/projects/markdown/syntax), and code is
+// passed through [Pygments](http://pygments.org/) syntax highlighting.  This
+// page is the result of running Phocco against its [own source file](http://github.com/rileydutton/phocco/blob/master/phocco.php).
+//
+// In addition to Docco's basic features, Phocco has basic support for PHPDocumentor-style docblocks. It can also be used on almost
+// any webserver (including shared hosting) with PHP 5, since it can fall back to a web service if your server doesn't have Pygments
+// installed.
+//
+// To run from the command-line (must have PHP CLI installed):
+//
+//     php phocco.php -o docs *.php
+//
+// ...will generate linked HTML documentation for the named source files, saving
+// it into a `docs` folder.
+//
+//
+
+### Requirements
+//
+// All external dependencies are included in the distribution under the `external` folder.
+//
+
 //We need the [PHP-Markdown](http://michelf.com/projects/php-markdown/) library to process the syntax for the documentation portions.
 require("external/php-markdown/markdown.php");
 //Some simple command-line parsing
 require("external/class.args.php");
+//
+//In addition, we require Pygments, a Python syntax highlighting library. If your server/computer doesn't have Pygments installed,
+//we will fall back to a webservice, although obviously this will be slower.
 
+### Main Functionality
 /**
  * Generate the documentation. The "main loop", so to speak.
  * 
@@ -291,6 +325,8 @@ function generate_html($filename, $sections) {
 	fclose($file);
 
 }
+
+### Configuration & Setup
 
 /**
  * A list of the languages that Phocco supports, which is a subset of the languages Pygment supports.
