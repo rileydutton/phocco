@@ -79,23 +79,26 @@ function parse($source, $code) {
 	                $docs_text = $code_text = '';
 	            }
 	            
-	            //If we are in a docblock, we have special handling to try and take PHPDocumentor @properties and turn them into something nicer.
+	            //If we are in a docblock, we have special handling to try and take PHPDocumentor @properties and turn them into something nicer. We are basically trying to produce something resembling literate-style documentation based on the docblock.
 	            if($in_docblock) {
 	            	$matches == array();
+	            	//See if we have an @property on this line.
 	            	preg_match_all("/\s@(.*?)\s(.*)/", $line, $matches);
 	            	if(count($matches[0]) != 0) {
 	            		$e = explode(" ", $matches[2][0], 3);
-
+						//It's a @param!
 	            		if($matches[1][0] == "param") {
 	            			$line = "`" . $e[0] . " " . $e[1] . "` " . $e[2];
 	            			$type = "param";
 	            			$header = "Takes ";
 	            		}
+	            		//It's a @return!
 	            		else if($matches[1][0] == "return") {
 	            			$line = "`" . $e[0] . " " . $e[1] . "` " . $e[2];
 	            			$type = "return";
 	            			$header = "Returns ";
 	            		}
+	            		//It's something we don't know how to handle...
 	            		else {
 	            			$type = "";
 	            			$header = "";
@@ -105,11 +108,11 @@ function parse($source, $code) {
 		            		$first = true;	  
 		            	else 
 		            		$first = false;
-	            		
+	            	
 	            		if(!$first) {
 	            			$line = " and " . $line;
 	            		}
-	            		
+	            	
 	            		if($first) {
 	            			if($prev_type != "")
 	            				$header = ". " . $header;
@@ -195,10 +198,11 @@ function highlight($filename, $sections) {
 	//Use the pygmentize command if it's available.
 	
 	$cmd = "pygmentize -l " . $language["name"] . " -f html";
-	
+	// stdin, stdout, stderror
 	$spec = array(
 	   0 => array("pipe", "r"),
-	   1 => array("pipe", "w")
+	   1 => array("pipe", "w"),
+	   2 => array("pipe", "w")
 	);
 	
 	$process = proc_open($cmd, $spec, $pipes);
@@ -207,18 +211,50 @@ function highlight($filename, $sections) {
 			
 	    fwrite($pipes[0], $code);
 	    fclose($pipes[0]);
-	
-	    $results = stream_get_contents($pipes[1]);
-	    fclose($pipes[1]);
-	
-	    $return_value = proc_close($process);
+	    //Check to see if we were actually able to use pygmentize
+	    $errors = stream_get_contents($pipes[2]);
+	    fclose($pipes[2]);
+	    if(strstr($errors, "command not found")) {
+	    	//Pygmentize isn't available, fall back on the web service.
+	    	print("Using webservice...\n");
+	    	//Use the excellent webservice provided by [Flowcoder](http://flowcoder.com/) to give us access to Pygments even 
+	    	//though we don't have it installed.
+	    	$postdata = http_build_query(
+			    array(
+			        'code' => $code,
+			        'lang' => $language["name"]
+			    )
+			);
+			
+			$opts = array('http' =>
+			    array(
+			        'method'  => 'POST',
+			        'header'  => 'Content-type: application/x-www-form-urlencoded',
+			        'content' => $postdata
+			    )
+			);
+			
+			$context  = stream_context_create($opts);
+			//We use file_get_contents instead of cURL because it's more likely to be installed by default.
+			$results = file_get_contents('http://pygments.appspot.com/', false, $context);
+			
+	    }
+	    
+	    else {
+	    	//We were able to use the pygmentize command on the local machine.
+			print("Using pygmentize...\n");
+		    $results = stream_get_contents($pipes[1]);
+		    fclose($pipes[1]);
+		
+		    $return_value = proc_close($process);
+		}
 	}
 	
 	$highlight_start = "<div class=\"highlight\"><pre>";
 	$highlight_end = "</pre></div>";
 	
 	$fragments = preg_split($language["divider_html"], $results);
-	
+	//Process the code and documentation for each section.
 	foreach($sections as $i=>$section) {
 		$sections[$i]["code_html"] = $highlight_start . $fragments[$i] . $highlight_end;
         $sections[$i]["docs_html"] = Markdown($sections[$i]["docs_text"]);
@@ -252,7 +288,7 @@ function generate_html($filename, $sections) {
 	include("template.php");
 	$compiled = ob_get_clean();
 	
-	$file = fopen("docs/" . $basename . ".html", "w") or trigger_error("Coudn't open output file!");
+	$file = fopen("docs/" . $basename . ".html", "w") or die("Coudn't open output file!");
 	fwrite($file, $compiled);
 	fclose($file);
 
