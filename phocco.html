@@ -2,6 +2,7 @@
 <html>
 
 <head>
+<title>phocco</title>
 
 <style type="text/css">
 /*--------------------- Layout and Typography ----------------------------*/
@@ -214,7 +215,7 @@ body .il { color: #666666 }                     /* Literal.Number.Integer.Long *
     Jump To &hellip;
     <div id="jump_wrapper">
       <div id="jump_page">
-                  <a class="source" href="{{ url }}">phocco</a>
+                  <a class="source" href="phocco.html">phocco</a>
               </div>
     </div>
   </div>
@@ -242,7 +243,7 @@ body .il { color: #666666 }                     /* Literal.Number.Integer.Long *
         <div class="octowrap">
           <a class="octothorpe" href="#section-1">#</a>
         </div>
-        <p>We need the PHP-Markdown library to process the syntax for the documentation portions.</p>
+        <p>We need the <a href="http://michelf.com/projects/php-markdown/">PHP-Markdown</a> library to process the syntax for the documentation portions.</p>
       </td>
       <td class=code>
         <div class='highlight'><pre><div class="highlight"><pre>
@@ -831,8 +832,8 @@ though we don't have it installed.</p>
 	<span class="k">global</span> <span class="nv">$sources</span><span class="p">;</span>
 	<span class="k">global</span> <span class="nv">$options</span><span class="p">;</span>
 
-	<span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="nb">is_dir</span><span class="p">(</span><span class="s2">&quot;docs&quot;</span><span class="p">))</span>
-		<span class="nb">mkdir</span><span class="p">(</span><span class="s2">&quot;docs&quot;</span><span class="p">);</span>
+	<span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="nb">is_dir</span><span class="p">(</span><span class="nv">$options</span><span class="p">[</span><span class="s2">&quot;outputdir&quot;</span><span class="p">]))</span>
+		<span class="nb">mkdir</span><span class="p">(</span><span class="nv">$options</span><span class="p">[</span><span class="s2">&quot;outputdir&quot;</span><span class="p">]);</span>
 	
 	<span class="nv">$e</span> <span class="o">=</span> <span class="nb">explode</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="nv">$filename</span><span class="p">);</span>
 	<span class="nv">$basename</span> <span class="o">=</span> <span class="nv">$e</span><span class="p">[</span><span class="m">0</span><span class="p">];</span>
@@ -961,12 +962,8 @@ though we don't have it installed.</p>
 	<span class="s2">&quot;outputdir&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;docs&quot;</span><span class="p">,</span>
 <span class="p">);</span>
 
-<span class="k">print</span><span class="p">(</span><span class="nv">$args</span><span class="o">-&gt;</span><span class="na">flag</span><span class="p">(</span><span class="s2">&quot;o&quot;</span><span class="p">)</span><span class="o">.</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">);</span>
-
 <span class="k">if</span><span class="p">(</span><span class="nv">$outputdir</span> <span class="o">=</span> <span class="nv">$args</span><span class="o">-&gt;</span><span class="na">flag</span><span class="p">(</span><span class="s2">&quot;o&quot;</span><span class="p">))</span>
 	<span class="nv">$options</span><span class="p">[</span><span class="s2">&quot;outputdir&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nv">$outputdir</span><span class="p">;</span>
-	
-<span class="nb">print_r</span><span class="p">(</span><span class="nv">$args</span><span class="o">-&gt;</span><span class="na">args</span><span class="p">);</span>
 
 <span class="k">if</span><span class="p">(</span><span class="nb">count</span><span class="p">(</span><span class="nv">$args</span><span class="o">-&gt;</span><span class="na">args</span><span class="p">)</span> <span class="o">==</span> <span class="m">0</span><span class="p">)</span> <span class="p">{</span>
 	<span class="k">print</span><span class="p">(</span><span class="s2">&quot;You must supply a filename to continue.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">);</span>
