@@ -243,6 +243,51 @@ body .il { color: #666666 }                     /* Literal.Number.Integer.Long *
         <div class="octowrap">
           <a class="octothorpe" href="#section-1">#</a>
         </div>
+        <p><strong>Phocco</strong> is a PHP port of <a href="http://jashkenas.github.com/docco/">Docco</a>:
+ the original quick-and-dirty, hundred-line-long, literate-programming-style
+ documentation generator, with inspiration from 
+ <a href="http://fitzgen.github.com/pycco/">Pycco</a> (for Python) 
+ and <a href="http://rtomayko.github.com/rocco/">Rocco</a> (for Ruby).
+ It produces HTML that displays your comments
+ alongside your code. Comments are passed through
+ <a href="http://daringfireball.net/projects/markdown/syntax">Markdown</a>, and code is
+ passed through <a href="http://pygments.org/">Pygments</a> syntax highlighting.  This
+ page is the result of running Phocco against its <a href="http://github.com/rileydutton/phocco/blob/master/phocco.php">own source file</a>.</p>
+
+<p>In addition to Docco's basic features, Phocco has basic support for PHPDocumentor-style docblocks. It can also be used on almost
+ any webserver (including shared hosting) with PHP 5, since it can fall back to a web service if your server doesn't have Pygments
+ installed.</p>
+
+<p>To run from the command-line (must have PHP CLI installed):</p>
+
+<pre><code> php phocco.php -o docs *.php
+</code></pre>
+
+<p>...will generate linked HTML documentation for the named source files, saving
+ it into a <code>docs</code> folder.</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre><div class="highlight"><pre></pre></div></pre></div>
+      </td>
+    </tr>
+        <tr id='section-2'>
+      <td class=docs>
+        <div class="octowrap">
+          <a class="octothorpe" href="#section-2">#</a>
+        </div>
+        <h2>Requirements</h2>
+
+<p>All external dependencies are included in the distribution under the <code>external</code> folder.</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre><div class="highlight"><pre></pre></div></pre></div>
+      </td>
+    </tr>
+        <tr id='section-3'>
+      <td class=docs>
+        <div class="octowrap">
+          <a class="octothorpe" href="#section-3">#</a>
+        </div>
         <p>We need the <a href="http://michelf.com/projects/php-markdown/">PHP-Markdown</a> library to process the syntax for the documentation portions.</p>
       </td>
       <td class=code>
@@ -250,10 +295,10 @@ body .il { color: #666666 }                     /* Literal.Number.Integer.Long *
 <span class="k">require</span><span class="p">(</span><span class="s2">&quot;external/php-markdown/markdown.php&quot;</span><span class="p">);</span></pre></div></pre></div>
       </td>
     </tr>
-        <tr id='section-2'>
+        <tr id='section-4'>
       <td class=docs>
         <div class="octowrap">
-          <a class="octothorpe" href="#section-2">#</a>
+          <a class="octothorpe" href="#section-4">#</a>
         </div>
         <p>Some simple command-line parsing</p>
       </td>
@@ -262,12 +307,26 @@ body .il { color: #666666 }                     /* Literal.Number.Integer.Long *
 <span class="k">require</span><span class="p">(</span><span class="s2">&quot;external/class.args.php&quot;</span><span class="p">);</span></pre></div></pre></div>
       </td>
     </tr>
-        <tr id='section-3'>
+        <tr id='section-5'>
       <td class=docs>
         <div class="octowrap">
-          <a class="octothorpe" href="#section-3">#</a>
+          <a class="octothorpe" href="#section-5">#</a>
         </div>
-        <p><strong><code>generate_documentation</code></strong></p>
+        <p>In addition, we require Pygments, a Python syntax highlighting library. If your server/computer doesn't have Pygments installed,
+we will fall back to a webservice, although obviously this will be slower.</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre><div class="highlight"><pre></pre></div></pre></div>
+      </td>
+    </tr>
+        <tr id='section-6'>
+      <td class=docs>
+        <div class="octowrap">
+          <a class="octothorpe" href="#section-6">#</a>
+        </div>
+        <h2>Main Functionality</h2>
+
+<p><strong><code>generate_documentation</code></strong></p>
 
 <p>Generate the documentation. The "main loop", so to speak.</p>
 
@@ -285,10 +344,10 @@ body .il { color: #666666 }                     /* Literal.Number.Integer.Long *
 <span class="p">}</span></pre></div></pre></div>
       </td>
     </tr>
-        <tr id='section-4'>
+        <tr id='section-7'>
       <td class=docs>
         <div class="octowrap">
-          <a class="octothorpe" href="#section-4">#</a>
+          <a class="octothorpe" href="#section-7">#</a>
         </div>
         <p><strong><code>parse</code></strong></p>
 
@@ -319,10 +378,10 @@ body .il { color: #666666 }                     /* Literal.Number.Integer.Long *
 	<span class="nv">$sections</span> <span class="o">=</span> <span class="k">array</span><span class="p">();</span></pre></div></pre></div>
       </td>
     </tr>
-        <tr id='section-5'>
+        <tr id='section-8'>
       <td class=docs>
         <div class="octowrap">
-          <a class="octothorpe" href="#section-5">#</a>
+          <a class="octothorpe" href="#section-8">#</a>
         </div>
         <p>Determine the language based on the extension of the file.</p>
       </td>
@@ -331,10 +390,10 @@ body .il { color: #666666 }                     /* Literal.Number.Integer.Long *
 	<span class="nv">$language</span> <span class="o">=</span> <span class="nx">get_language</span><span class="p">(</span><span class="nv">$source</span><span class="p">);</span></pre></div></pre></div>
       </td>
     </tr>
-        <tr id='section-6'>
+        <tr id='section-9'>
       <td class=docs>
         <div class="octowrap">
-          <a class="octothorpe" href="#section-6">#</a>
+          <a class="octothorpe" href="#section-9">#</a>
         </div>
         <p><code>true</code> when we are "inside" of a code block, <code>false</code> otherwise.</p>
       </td>
@@ -345,10 +404,10 @@ body .il { color: #666666 }                     /* Literal.Number.Integer.Long *
 	</pre></div></pre></div>
       </td>
     </tr>
-        <tr id='section-7'>
+        <tr id='section-10'>
       <td class=docs>
         <div class="octowrap">
-          <a class="octothorpe" href="#section-7">#</a>
+          <a class="octothorpe" href="#section-10">#</a>
         </div>
         <p>Check to make sure we aren't treating a bash directive as a comment</p>
       </td>
@@ -360,10 +419,10 @@ body .il { color: #666666 }                     /* Literal.Number.Integer.Long *
 	</pre></div></pre></div>
       </td>
     </tr>
-        <tr id='section-8'>
+        <tr id='section-11'>
       <td class=docs>
         <div class="octowrap">
-          <a class="octothorpe" href="#section-8">#</a>
+          <a class="octothorpe" href="#section-11">#</a>
         </div>
         <p>For tracking docblock issues.</p>
       </td>
@@ -377,10 +436,10 @@ body .il { color: #666666 }                     /* Literal.Number.Integer.Long *
 	<span class="k">foreach</span><span class="p">(</span><span class="nv">$lines</span> <span class="k">as</span> <span class="nv">$line_num</span><span class="o">=&gt;</span><span class="nv">$line</span><span class="p">)</span> <span class="p">{</span></pre></div></pre></div>
       </td>
     </tr>
-        <tr id='section-9'>
+        <tr id='section-12'>
       <td class=docs>
         <div class="octowrap">
-          <a class="octothorpe" href="#section-9">#</a>
+          <a class="octothorpe" href="#section-12">#</a>
         </div>
         <p>This is a check added since we support multiple comment symbols for each language. <code>true</code> if any of them have matched.</p>
       </td>
@@ -390,10 +449,10 @@ body .il { color: #666666 }                     /* Literal.Number.Integer.Long *
 		</pre></div></pre></div>
       </td>
     </tr>
-        <tr id='section-10'>
+        <tr id='section-13'>
       <td class=docs>
         <div class="octowrap">
-          <a class="octothorpe" href="#section-10">#</a>
+          <a class="octothorpe" href="#section-13">#</a>
         </div>
         <p>Support for PHPDocumentor-style Docblocks</p>
       </td>
@@ -404,10 +463,10 @@ body .il { color: #666666 }                     /* Literal.Number.Integer.Long *
 		<span class="k">foreach</span><span class="p">(</span><span class="nb">array_merge</span><span class="p">(</span><span class="nv">$docblockmatcher</span><span class="p">,</span> <span class="nv">$language</span><span class="p">[</span><span class="s2">&quot;symbols&quot;</span><span class="p">])</span> <span class="k">as</span> <span class="nv">$symbol</span><span class="p">)</span> <span class="p">{</span></pre></div></pre></div>
       </td>
     </tr>
-        <tr id='section-11'>
+        <tr id='section-14'>
       <td class=docs>
         <div class="octowrap">
-          <a class="octothorpe" href="#section-11">#</a>
+          <a class="octothorpe" href="#section-14">#</a>
         </div>
         <p>See if our symbol is found on this line.</p>
       </td>
@@ -416,10 +475,10 @@ body .il { color: #666666 }                     /* Literal.Number.Integer.Long *
 	        <span class="k">if</span><span class="p">(</span><span class="nb">preg_match</span><span class="p">(</span><span class="s2">&quot;|^\s*&quot;</span> <span class="o">.</span> <span class="nv">$symbol</span> <span class="o">.</span> <span class="s2">&quot;|&quot;</span><span class="p">,</span> <span class="nv">$line</span><span class="p">))</span> <span class="p">{</span></pre></div></pre></div>
       </td>
     </tr>
-        <tr id='section-12'>
+        <tr id='section-15'>
       <td class=docs>
         <div class="octowrap">
-          <a class="octothorpe" href="#section-12">#</a>
+          <a class="octothorpe" href="#section-15">#</a>
         </div>
         <p>Symbol has been found, but are we in a code block? If so, end this <strong>section</strong></p>
       </td>
@@ -436,10 +495,10 @@ body .il { color: #666666 }                     /* Literal.Number.Integer.Long *
 	            </pre></div></pre></div>
       </td>
     </tr>
-        <tr id='section-13'>
+        <tr id='section-16'>
       <td class=docs>
         <div class="octowrap">
-          <a class="octothorpe" href="#section-13">#</a>
+          <a class="octothorpe" href="#section-16">#</a>
         </div>
         <p>If we are in a docblock, we have special handling to try and take PHPDocumentor @properties and turn them into something nicer. We are basically trying to produce something resembling literate-style documentation based on the docblock.</p>
       </td>
@@ -449,10 +508,10 @@ body .il { color: #666666 }                     /* Literal.Number.Integer.Long *
 	            	<span class="nv">$matches</span> <span class="o">==</span> <span class="k">array</span><span class="p">();</span></pre></div></pre></div>
       </td>
     </tr>
-        <tr id='section-14'>
+        <tr id='section-17'>
       <td class=docs>
         <div class="octowrap">
-          <a class="octothorpe" href="#section-14">#</a>
+          <a class="octothorpe" href="#section-17">#</a>
         </div>
         <p>See if we have an @property on this line.</p>
       </td>
@@ -463,10 +522,10 @@ body .il { color: #666666 }                     /* Literal.Number.Integer.Long *
 	            		<span class="nv">$e</span> <span class="o">=</span> <span class="nb">explode</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="nv">$matches</span><span class="p">[</span><span class="m">2</span><span class="p">][</span><span class="m">0</span><span class="p">],</span> <span class="m">3</span><span class="p">);</span></pre></div></pre></div>
       </td>
     </tr>
-        <tr id='section-15'>
+        <tr id='section-18'>
       <td class=docs>
         <div class="octowrap">
-          <a class="octothorpe" href="#section-15">#</a>
+          <a class="octothorpe" href="#section-18">#</a>
         </div>
         <p>It's a @param!</p>
       </td>
@@ -479,10 +538,10 @@ body .il { color: #666666 }                     /* Literal.Number.Integer.Long *
 	            		<span class="p">}</span></pre></div></pre></div>
       </td>
     </tr>
-        <tr id='section-16'>
+        <tr id='section-19'>
       <td class=docs>
         <div class="octowrap">
-          <a class="octothorpe" href="#section-16">#</a>
+          <a class="octothorpe" href="#section-19">#</a>
         </div>
         <p>It's a @return!</p>
       </td>
@@ -495,10 +554,10 @@ body .il { color: #666666 }                     /* Literal.Number.Integer.Long *
 	            		<span class="p">}</span></pre></div></pre></div>
       </td>
     </tr>
-        <tr id='section-17'>
+        <tr id='section-20'>
       <td class=docs>
         <div class="octowrap">
-          <a class="octothorpe" href="#section-17">#</a>
+          <a class="octothorpe" href="#section-20">#</a>
         </div>
         <p>It's something we don't know how to handle...</p>
       </td>
@@ -537,10 +596,10 @@ body .il { color: #666666 }                     /* Literal.Number.Integer.Long *
 	            </pre></div></pre></div>
       </td>
     </tr>
-        <tr id='section-18'>
+        <tr id='section-21'>
       <td class=docs>
         <div class="octowrap">
-          <a class="octothorpe" href="#section-18">#</a>
+          <a class="octothorpe" href="#section-21">#</a>
         </div>
         <p>Determine if we are starting a docblock.</p>
       </td>
@@ -550,10 +609,10 @@ body .il { color: #666666 }                     /* Literal.Number.Integer.Long *
 	            	<span class="nv">$in_docblock</span> <span class="o">=</span> <span class="k">true</span><span class="p">;</span></pre></div></pre></div>
       </td>
     </tr>
-        <tr id='section-19'>
+        <tr id='section-22'>
       <td class=docs>
         <div class="octowrap">
-          <a class="octothorpe" href="#section-19">#</a>
+          <a class="octothorpe" href="#section-22">#</a>
         </div>
         <p>Skip ahead until we find the name of this function, if possible.</p>
       </td>
@@ -568,10 +627,10 @@ body .il { color: #666666 }                     /* Literal.Number.Integer.Long *
 	            		<span class="p">}</span></pre></div></pre></div>
       </td>
     </tr>
-        <tr id='section-20'>
+        <tr id='section-23'>
       <td class=docs>
         <div class="octowrap">
-          <a class="octothorpe" href="#section-20">#</a>
+          <a class="octothorpe" href="#section-23">#</a>
         </div>
         <p>We've encountered the next docblock without finding a function. Abort.</p>
       </td>
@@ -584,10 +643,10 @@ body .il { color: #666666 }                     /* Literal.Number.Integer.Long *
 	            <span class="p">}</span></pre></div></pre></div>
       </td>
     </tr>
-        <tr id='section-21'>
+        <tr id='section-24'>
       <td class=docs>
         <div class="octowrap">
-          <a class="octothorpe" href="#section-21">#</a>
+          <a class="octothorpe" href="#section-24">#</a>
         </div>
         <p>Are we ending a docblock?</p>
       </td>
@@ -610,10 +669,10 @@ body .il { color: #666666 }                     /* Literal.Number.Integer.Long *
 	   <span class="p">}</span></pre></div></pre></div>
       </td>
     </tr>
-        <tr id='section-22'>
+        <tr id='section-25'>
       <td class=docs>
         <div class="octowrap">
-          <a class="octothorpe" href="#section-22">#</a>
+          <a class="octothorpe" href="#section-25">#</a>
         </div>
         <p>If <code>found_symbol</code> is false, then this must be the beginning (or a continution) of a code block.</p>
       </td>
@@ -635,10 +694,10 @@ body .il { color: #666666 }                     /* Literal.Number.Integer.Long *
 <span class="p">}</span></pre></div></pre></div>
       </td>
     </tr>
-        <tr id='section-23'>
+        <tr id='section-26'>
       <td class=docs>
         <div class="octowrap">
-          <a class="octothorpe" href="#section-23">#</a>
+          <a class="octothorpe" href="#section-26">#</a>
         </div>
         <p><strong><code>highlight</code></strong></p>
 
@@ -662,10 +721,10 @@ body .il { color: #666666 }                     /* Literal.Number.Integer.Long *
 	</pre></div></pre></div>
       </td>
     </tr>
-        <tr id='section-24'>
+        <tr id='section-27'>
       <td class=docs>
         <div class="octowrap">
-          <a class="octothorpe" href="#section-24">#</a>
+          <a class="octothorpe" href="#section-27">#</a>
         </div>
         <p>Use the pygmentize command if it's available.</p>
       </td>
@@ -675,10 +734,10 @@ body .il { color: #666666 }                     /* Literal.Number.Integer.Long *
 	<span class="nv">$cmd</span> <span class="o">=</span> <span class="s2">&quot;pygmentize -l &quot;</span> <span class="o">.</span> <span class="nv">$language</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">.</span> <span class="s2">&quot; -f html&quot;</span><span class="p">;</span></pre></div></pre></div>
       </td>
     </tr>
-        <tr id='section-25'>
+        <tr id='section-28'>
       <td class=docs>
         <div class="octowrap">
-          <a class="octothorpe" href="#section-25">#</a>
+          <a class="octothorpe" href="#section-28">#</a>
         </div>
         <p>stdin, stdout, stderror</p>
       </td>
@@ -698,10 +757,10 @@ body .il { color: #666666 }                     /* Literal.Number.Integer.Long *
 	    <span class="nb">fclose</span><span class="p">(</span><span class="nv">$pipes</span><span class="p">[</span><span class="m">0</span><span class="p">]);</span></pre></div></pre></div>
       </td>
     </tr>
-        <tr id='section-26'>
+        <tr id='section-29'>
       <td class=docs>
         <div class="octowrap">
-          <a class="octothorpe" href="#section-26">#</a>
+          <a class="octothorpe" href="#section-29">#</a>
         </div>
         <p>Check to see if we were actually able to use pygmentize</p>
       </td>
@@ -712,10 +771,10 @@ body .il { color: #666666 }                     /* Literal.Number.Integer.Long *
 	    <span class="k">if</span><span class="p">(</span><span class="nb">strstr</span><span class="p">(</span><span class="nv">$errors</span><span class="p">,</span> <span class="s2">&quot;command not found&quot;</span><span class="p">))</span> <span class="p">{</span></pre></div></pre></div>
       </td>
     </tr>
-        <tr id='section-27'>
+        <tr id='section-30'>
       <td class=docs>
         <div class="octowrap">
-          <a class="octothorpe" href="#section-27">#</a>
+          <a class="octothorpe" href="#section-30">#</a>
         </div>
         <p>Pygmentize isn't available, fall back on the web service.</p>
       </td>
@@ -724,10 +783,10 @@ body .il { color: #666666 }                     /* Literal.Number.Integer.Long *
 	    	<span class="k">print</span><span class="p">(</span><span class="s2">&quot;Using webservice...</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">);</span></pre></div></pre></div>
       </td>
     </tr>
-        <tr id='section-28'>
+        <tr id='section-31'>
       <td class=docs>
         <div class="octowrap">
-          <a class="octothorpe" href="#section-28">#</a>
+          <a class="octothorpe" href="#section-31">#</a>
         </div>
         <p>Use the excellent webservice provided by <a href="http://flowcoder.com/">Flowcoder</a> to give us access to Pygments even 
 though we don't have it installed.</p>
@@ -752,10 +811,10 @@ though we don't have it installed.</p>
 			<span class="nv">$context</span>  <span class="o">=</span> <span class="nb">stream_context_create</span><span class="p">(</span><span class="nv">$opts</span><span class="p">);</span></pre></div></pre></div>
       </td>
     </tr>
-        <tr id='section-29'>
+        <tr id='section-32'>
       <td class=docs>
         <div class="octowrap">
-          <a class="octothorpe" href="#section-29">#</a>
+          <a class="octothorpe" href="#section-32">#</a>
         </div>
         <p>We use file<em>get</em>contents instead of cURL because it's more likely to be installed by default.</p>
       </td>
@@ -768,10 +827,10 @@ though we don't have it installed.</p>
 	    <span class="k">else</span> <span class="p">{</span></pre></div></pre></div>
       </td>
     </tr>
-        <tr id='section-30'>
+        <tr id='section-33'>
       <td class=docs>
         <div class="octowrap">
-          <a class="octothorpe" href="#section-30">#</a>
+          <a class="octothorpe" href="#section-33">#</a>
         </div>
         <p>We were able to use the pygmentize command on the local machine.</p>
       </td>
@@ -791,10 +850,10 @@ though we don't have it installed.</p>
 	<span class="nv">$fragments</span> <span class="o">=</span> <span class="nb">preg_split</span><span class="p">(</span><span class="nv">$language</span><span class="p">[</span><span class="s2">&quot;divider_html&quot;</span><span class="p">],</span> <span class="nv">$results</span><span class="p">);</span></pre></div></pre></div>
       </td>
     </tr>
-        <tr id='section-31'>
+        <tr id='section-34'>
       <td class=docs>
         <div class="octowrap">
-          <a class="octothorpe" href="#section-31">#</a>
+          <a class="octothorpe" href="#section-34">#</a>
         </div>
         <p>Process the code and documentation for each section.</p>
       </td>
@@ -811,10 +870,10 @@ though we don't have it installed.</p>
 <span class="p">}</span></pre></div></pre></div>
       </td>
     </tr>
-        <tr id='section-32'>
+        <tr id='section-35'>
       <td class=docs>
         <div class="octowrap">
-          <a class="octothorpe" href="#section-32">#</a>
+          <a class="octothorpe" href="#section-35">#</a>
         </div>
         <p><strong><code>generate_html</code></strong></p>
 
@@ -851,10 +910,21 @@ though we don't have it installed.</p>
 <span class="p">}</span></pre></div></pre></div>
       </td>
     </tr>
-        <tr id='section-33'>
+        <tr id='section-36'>
       <td class=docs>
         <div class="octowrap">
-          <a class="octothorpe" href="#section-33">#</a>
+          <a class="octothorpe" href="#section-36">#</a>
+        </div>
+        <h2>Configuration &amp; Setup</h2>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre><div class="highlight"><pre></pre></div></pre></div>
+      </td>
+    </tr>
+        <tr id='section-37'>
+      <td class=docs>
+        <div class="octowrap">
+          <a class="octothorpe" href="#section-37">#</a>
         </div>
         <p><strong><code>get_language</code></strong></p>
 
@@ -885,10 +955,10 @@ though we don't have it installed.</p>
 <span class="p">);</span></pre></div></pre></div>
       </td>
     </tr>
-        <tr id='section-34'>
+        <tr id='section-38'>
       <td class=docs>
         <div class="octowrap">
-          <a class="octothorpe" href="#section-34">#</a>
+          <a class="octothorpe" href="#section-38">#</a>
         </div>
         <p><strong><code>get_language</code></strong></p>
 
@@ -913,10 +983,10 @@ though we don't have it installed.</p>
 	<span class="nv">$l</span> <span class="o">=</span> <span class="nv">$languages</span><span class="p">[</span><span class="nv">$extension</span><span class="p">];</span></pre></div></pre></div>
       </td>
     </tr>
-        <tr id='section-35'>
+        <tr id='section-39'>
       <td class=docs>
         <div class="octowrap">
-          <a class="octothorpe" href="#section-35">#</a>
+          <a class="octothorpe" href="#section-39">#</a>
         </div>
         <p>The dividing token we feed into Pygments, to delimit the boundaries between
  sections.</p>
@@ -926,10 +996,10 @@ though we don't have it installed.</p>
     <span class="nv">$l</span><span class="p">[</span><span class="s2">&quot;divider_text&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">.</span> <span class="nv">$l</span><span class="p">[</span><span class="s2">&quot;symbols&quot;</span><span class="p">][</span><span class="m">0</span><span class="p">]</span> <span class="o">.</span> <span class="s2">&quot;DIVIDER</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">;</span></pre></div></pre></div>
       </td>
     </tr>
-        <tr id='section-36'>
+        <tr id='section-40'>
       <td class=docs>
         <div class="octowrap">
-          <a class="octothorpe" href="#section-36">#</a>
+          <a class="octothorpe" href="#section-40">#</a>
         </div>
         <p>The mirror of <code>divider_text</code> that we expect Pygments to return. We can split
  on this to recover the original sections.</p>
@@ -949,10 +1019,10 @@ though we don't have it installed.</p>
 <span class="nv">$args</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Args</span><span class="p">();</span></pre></div></pre></div>
       </td>
     </tr>
-        <tr id='section-37'>
+        <tr id='section-41'>
       <td class=docs>
         <div class="octowrap">
-          <a class="octothorpe" href="#section-37">#</a>
+          <a class="octothorpe" href="#section-41">#</a>
         </div>
         <p>Default options</p>
       </td>
