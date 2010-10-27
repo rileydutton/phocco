@@ -1,5 +1,5 @@
 <?php
-//We need the PHP-Markdown library to process the syntax for the documentation portions.
+//We need the [PHP-Markdown](http://michelf.com/projects/php-markdown/) library to process the syntax for the documentation portions.
 require("external/php-markdown/markdown.php");
 //Some simple command-line parsing
 require("external/class.args.php");
@@ -274,8 +274,8 @@ function generate_html($filename, $sections) {
 	global $sources;
 	global $options;
 
-	if(!is_dir("docs"))
-		mkdir("docs");
+	if(!is_dir($options["outputdir"]))
+		mkdir($options["outputdir"]);
 	
 	$e = explode(".", $filename);
 	$basename = $e[0];
@@ -358,12 +358,8 @@ $options = array(
 	"outputdir" => "docs",
 );
 
-print($args->flag("o")."\n");
-
 if($outputdir = $args->flag("o"))
 	$options["outputdir"] = $outputdir;
-	
-print_r($args->args);
 
 if(count($args->args) == 0) {
 	print("You must supply a filename to continue.\n");

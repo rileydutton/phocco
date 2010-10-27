@@ -2,6 +2,7 @@
 <html>
 
 <head>
+<title><?=$title?></title>
 
 <style type="text/css">
 /*--------------------- Layout and Typography ----------------------------*/
@@ -216,7 +217,7 @@ body .il { color: #666666 }                     /* Literal.Number.Integer.Long *
     <div id="jump_wrapper">
       <div id="jump_page">
         <?php foreach($sources as $source): ?>
-          <a class="source" href="{{ url }}"><?=$source?></a>
+          <a class="source" href="<?=$source?>.html"><?=$source?></a>
         <?php endforeach; ?>
       </div>
     </div>
