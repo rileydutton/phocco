@@ -266,7 +266,7 @@ function highlight($filename, $sections) {
 			);
 			
 			$context  = stream_context_create($opts);
-			//We use file_get_contents instead of cURL because it's more likely to be installed by default.
+			//We use `file_get_contents` instead of cURL because it's more likely to be installed by default.
 			$results = file_get_contents('http://pygments.appspot.com/', false, $context);
 			
 	    }
