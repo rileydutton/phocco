@@ -255,8 +255,7 @@ body .il { color: #666666 }                     /* Literal.Number.Integer.Long *
  page is the result of running Phocco against its <a href="http://github.com/rileydutton/phocco/blob/master/phocco.php">own source file</a>.</p>
 
 <p>In addition to Docco's basic features, Phocco has basic support for PHPDocumentor-style docblocks. It can also be used on almost
- any webserver (including shared hosting) with PHP 5, since it can fall back to a web service if your server doesn't have Pygments
- installed.</p>
+ any server with PHP 5, since it can fall back to a web service if your server doesn't have Pygments installed.</p>
 
 <p>To run from the command-line (must have PHP CLI installed):</p>
 
@@ -265,6 +264,9 @@ body .il { color: #666666 }                     /* Literal.Number.Integer.Long *
 
 <p>...will generate linked HTML documentation for the named source files, saving
  it into a <code>docs</code> folder.</p>
+
+<p>There may be support added in the future for dynamic on-the-fly documentation generation (for example, uploading Phocco to a webserver).
+ Contact me and let me know if that is something you would use.</p>
       </td>
       <td class=code>
         <div class='highlight'><pre><div class="highlight"><pre></pre></div></pre></div>
@@ -701,7 +703,7 @@ we will fall back to a webservice, although obviously this will be slower.</p>
         </div>
         <p><strong><code>highlight</code></strong></p>
 
-<p>Highlight each section, using Pygment for the code, and Markdown for the documentation.</p>
+<p>Highlight each section, using Pygments for the code, and Markdown for the documentation.</p>
 
 <p>Takes <code>string $filename</code> 
  and <code>array $sections</code> 
@@ -816,7 +818,7 @@ though we don't have it installed.</p>
         <div class="octowrap">
           <a class="octothorpe" href="#section-32">#</a>
         </div>
-        <p>We use file<em>get</em>contents instead of cURL because it's more likely to be installed by default.</p>
+        <p>We use <code>file_get_contents</code> instead of cURL because it's more likely to be installed by default.</p>
       </td>
       <td class=code>
         <div class='highlight'><pre><div class="highlight"><pre>
@@ -928,7 +930,7 @@ though we don't have it installed.</p>
         </div>
         <p><strong><code>get_language</code></strong></p>
 
-<p>A list of the languages that Phocco supports, which is a subset of the languages Pygment supports.</p>
+<p>A list of the languages that Phocco supports, which is a subset of the languages Pygments supports.</p>
 
 <p>Add more languages here!
 .</p>
