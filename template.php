@@ -2,7 +2,7 @@
 <html>
 
 <head>
-<title><?=$title?></title>
+<title><?php print $title; ?></title>
 
 <style type="text/css">
 /*--------------------- Layout and Typography ----------------------------*/
@@ -217,7 +217,7 @@ body .il { color: #666666 }                     /* Literal.Number.Integer.Long *
     <div id="jump_wrapper">
       <div id="jump_page">
         <?php foreach($sources as $source): ?>
-          <a class="source" href="<?=$source?>.html"><?=$source?></a>
+          <a class="source" href="<?php print $source; ?>.html"><?php print $source; ?></a>
         <?php endforeach; ?>
       </div>
     </div>
@@ -226,21 +226,21 @@ body .il { color: #666666 }                     /* Literal.Number.Integer.Long *
   <table cellspacing=0 cellpadding=0>
   <thead>
     <tr>
-      <th class=docs><h1><?=$title?></h1></th>
+      <th class=docs><h1><?php print $title; ?></h1></th>
       <th class=code></th>
     </tr>
   </thead>
   <tbody>
     <?php foreach($sections as $section): ?>
-    <tr id='section-<?=$section["num"]?>'>
+    <tr id='section-<?php print $section["num"]; ?>'>
       <td class=docs>
         <div class="octowrap">
-          <a class="octothorpe" href="#section-<?=$section["num"]?>">#</a>
+          <a class="octothorpe" href="#section-<?php print $section["num"]; ?>">#</a>
         </div>
-        <?=$section["docs_html"]?>
+        <?php print $section["docs_html"]; ?>
       </td>
       <td class=code>
-        <div class='highlight'><pre><?=$section["code_html"]?></pre></div>
+        <div class='highlight'><pre><?php print $section["code_html"]; ?></pre></div>
       </td>
     </tr>
     <?php endforeach; ?>
